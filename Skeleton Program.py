@@ -23,6 +23,7 @@ class TRecentScore():
 Deck = [None]
 RecentScores = [None]
 Choice = ''
+ace_high = 0
 
 def GetRank(RankNo):
   Rank = ''
@@ -54,6 +55,36 @@ def GetRank(RankNo):
     Rank = 'King'
   return Rank
 
+def options():
+    loop = True
+    print('OPTIONS MENU')
+    print()
+    print('1. Set Ace to be HIGH or LOW')
+    print('')
+    while loop == True:
+        hold = str(input('Select an option from the menu (or enter q to quit): '))
+        if hold == '1':
+            loop_2 = True
+            print('Do you want the ace to be (H)igh or (l)ow')
+            hold_2 = str(input())
+            while loop_2 == True:
+                if hold_2 == 'High' or hold_2 == 'high' or hold_2 == 'h' or hold_2 == 'H':
+                    ace_high = 1
+                    loop_2 = False
+                elif hold == 'Low' or hold_2 == 'low' or hold_2 == 'L' or hold_2 == 'l':
+                    ace_high = 0
+                    loop_2 = False
+                else:
+                    print('Invalid option please re-enter you option')
+                    hold_2 = str(input())
+            loop = False
+        elif hold == 'q':
+            loop = False
+        else:
+            print('Invalid option please re-enter you option')
+            hold = str(input())
+    return ace_high
+        
 def GetSuit(SuitNo):
   Suit = ''
   if SuitNo == 1:
@@ -74,6 +105,7 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
+  print('5. Options')
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -124,10 +156,16 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard):
+def IsNextCardHigher(LastCard, NextCard,ace_high):
   Higher = False
-  if NextCard.Rank > LastCard.Rank:
-    Higher = True
+  if ace_high == 0:
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
+  if ace_high == 1:
+    if NextCard.Rank == 1:
+      NextCard.Rank = 14
+    if LastCard.Rank == 1:
+      LastCard.Rank = 14
   return Higher
 
 def GetPlayerName():
@@ -222,7 +260,7 @@ def UpdateRecentScores(RecentScores, Score):
   else:
     pass
 
-def PlayGame(Deck, RecentScores):
+def PlayGame(Deck, RecentScores,ace_high):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
@@ -236,7 +274,7 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard)
+    Higher = IsNextCardHigher(LastCard, NextCard, ace_high)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
@@ -262,11 +300,13 @@ if __name__ == '__main__':
     if Choice == '1':
       LoadDeck(Deck)
       ShuffleDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores,ace_high)
     elif Choice == '2':
       LoadDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores,ace_high)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
+    elif Choice == '5':
+        ace_high = options()
