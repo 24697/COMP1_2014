@@ -61,18 +61,20 @@ def options():
     print()
     print('1. Set Ace to be HIGH or LOW')
     print('')
+    hold = str(input('Select an option from the menu (or enter q to quit): '))
     while loop == True:
-        hold = str(input('Select an option from the menu (or enter q to quit): '))
         if hold == '1':
             loop_2 = True
             print('Do you want the ace to be (H)igh or (l)ow')
             hold_2 = str(input())
             while loop_2 == True:
                 if hold_2 == 'High' or hold_2 == 'high' or hold_2 == 'h' or hold_2 == 'H':
-                    ace_high = 1
+                    ace_high = True
+                    print('Aces are now high')
                     loop_2 = False
-                elif hold == 'Low' or hold_2 == 'low' or hold_2 == 'L' or hold_2 == 'l':
-                    ace_high = 0
+                elif hold_2 == 'Low' or hold_2 == 'low' or hold_2 == 'L' or hold_2 == 'l':
+                    ace_high = False
+                    print('Aces ae now low')
                     loop_2 = False
                 else:
                     print('Invalid option please re-enter you option')
@@ -158,10 +160,10 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
 
 def IsNextCardHigher(LastCard, NextCard,ace_high):
   Higher = False
-  if ace_high == 0:
+  if ace_high == False:
     if NextCard.Rank > LastCard.Rank:
       Higher = True
-  if ace_high == 1:
+  if ace_high == True:
     if NextCard.Rank == 1:
       NextCard.Rank = 14
     if LastCard.Rank == 1:
@@ -288,6 +290,47 @@ def PlayGame(Deck, RecentScores,ace_high):
     DisplayEndOfGameMessage(51)
     UpdateRecentScores(RecentScores, 51)
 
+def bubble_sort_scores(RecentScores):
+    change = True
+    to_change = True
+    if to_change == True:
+        change = False
+        to_change = False
+    if RecentScores[1].Score < RecentScores[2].Score:
+        score_hold = RecentScores[1].Score
+        name_hold = RecentScores[1].Name
+        day_hold = RecentScores[1].Date.tm_mday
+        month_hold = RecentScores[1].Date.tm_mon
+        year_hold = RecentScores[1].Date.tm_year
+        RecentScores[1].Score = RecentScores[2].Score
+        RecentScores[1].Name = RecentScores[2].Name
+        RecentScores[1].Date.tm_mday = RecentScores[2].Date.tm_mday
+        RecentScores[1].Date.tm_mon = RecentScores[2].Date.tm_mon
+        RecentScores[1].Date.tm_year = RecentScores[2].Date.tm_year
+        RecentScores[2].Score = score_hold
+        RecentScores[2].Name = name_hold
+        RecentScores[2].Date.tm_mday = day_hold
+        RecentScores[2].Date.tm_mon = month_hold
+        RecentScores[2].Date.tm_year = year_hold
+        change = True
+    if RecentScores[2].Score < RecentScores[3].Score:
+        score_hold = RecentScores[2].Score
+        name_hold = RecentScores[2].Name
+        day_hold = RecentScores[2].Date.tm_mday
+        month_hold = RecentScores[2].Date.tm_mon
+        year_hold = RecentScores[2].Date.tm_year
+        RecentScores[2].Score = RecentScores[3].Score
+        RecentScores[2].Name = RecentScores[3].Name
+        RecentScores[2].Date.tm_mday = RecentScores[3].Date.tm_mday
+        RecentScores[2].Date.tm_mon = RecentScores[3].Date.tm_mon
+        RecentScores[2].Date.tm_year = RecentScores[3].Date.tm_year
+        RecentScores[3].Score = score_hold
+        RecentScores[3].Name = name_hold
+        RecentScores[3].Date.tm_mday = day_hold
+        RecentScores[3].Date.tm_mon = month_hold
+        RecentScores[3].Date.tm_year = year_hold
+        change = True
+
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
@@ -305,6 +348,7 @@ if __name__ == '__main__':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores,ace_high)
     elif Choice == '3':
+      bubble_sort_scores(RecentScores)
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)

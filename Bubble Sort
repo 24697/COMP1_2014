@@ -1,0 +1,40 @@
+def bubble_sort_scores(RecentScores):
+    change = True
+    to_change = True
+    if to_change = True:
+        change = False
+        to_change = False
+    if RecentScores[1].Score < RecentScores[2].Score:
+        score_hold = RecentScores[1].Score
+        name_hold = RecentScores[1].Name
+        day_hold = RecentScores[1].Date.tm_mday
+        month_hold = RecentScores[1].Date.tm_mon
+        year_hold = RecentScores[1].Date.tm_year
+        RecentScores[1].Score = RecentScores[2].Score
+        RecentScores[1].Name = RecentScores[2].Name
+        RecentScores[1].Date.tm_mday = RecentScores[2].Date.tm_mday
+        RecentScores[1].Date.tm_mon = RecentScores[2].Date.tm_mon
+        RecentScores[1].Date.tm_year = RecentScores[2].Date.tm_year
+        RecentScores[2].Score = score_hold
+        RecentScores[2].Name = name_hold
+        RecentScores[2].Date.tm_mday = day_hold
+        RecentScores[2].Date.tm_mon = month_hold
+        RecentScores[2].Date.tm_year = year_hold
+        change = True
+    if RecentScores[2].Score < RecentScores[3].Score:
+        score_hold = RecentScores[2].Score
+        name_hold = RecentScores[2].Name
+        day_hold = RecentScores[2].Date.tm_mday
+        month_hold = RecentScores[2].Date.tm_mon
+        year_hold = RecentScores[2].Date.tm_year
+        RecentScores[2].Score = RecentScores[3].Score
+        RecentScores[2].Name = RecentScores[3].Name
+        RecentScores[2].Date.tm_mday = RecentScores[3].Date.tm_mday
+        RecentScores[2].Date.tm_mon = RecentScores[3].Date.tm_mon
+        RecentScores[2].Date.tm_year = RecentScores[3].Date.tm_year
+        RecentScores[3].Score = score_hold
+        RecentScores[3].Name = name_hold
+        RecentScores[3].Date.tm_mday = day_hold
+        RecentScores[3].Date.tm_mon = month_hold
+        RecentScores[3].Date.tm_year = year_hold
+        change = True
