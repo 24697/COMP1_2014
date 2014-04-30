@@ -6,10 +6,8 @@
 
 import random
 import time
-<<<<<<< HEAD
-=======
 import pickle
->>>>>>> saving and loading files
+
 
 NO_OF_RECENT_SCORES = 3
 
@@ -28,6 +26,7 @@ Deck = [None]
 RecentScores = [None]
 Choice = ''
 ace_high = 0
+
 
 def GetRank(RankNo):
   Rank = ''
@@ -111,12 +110,9 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
-<<<<<<< HEAD
   print('5. Options')
-=======
   print('5. Save recent scores')
   print('6. Options')
->>>>>>> saving and loading files
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -302,46 +298,6 @@ def PlayGame(Deck, RecentScores,ace_high):
 def bubble_sort_scores(RecentScores):
     change = True
     to_change = True
-<<<<<<< HEAD
-    if to_change == True:
-        change = False
-        to_change = False
-    if RecentScores[1].Score < RecentScores[2].Score:
-        score_hold = RecentScores[1].Score
-        name_hold = RecentScores[1].Name
-        day_hold = RecentScores[1].Date.tm_mday
-        month_hold = RecentScores[1].Date.tm_mon
-        year_hold = RecentScores[1].Date.tm_year
-        RecentScores[1].Score = RecentScores[2].Score
-        RecentScores[1].Name = RecentScores[2].Name
-        RecentScores[1].Date.tm_mday = RecentScores[2].Date.tm_mday
-        RecentScores[1].Date.tm_mon = RecentScores[2].Date.tm_mon
-        RecentScores[1].Date.tm_year = RecentScores[2].Date.tm_year
-        RecentScores[2].Score = score_hold
-        RecentScores[2].Name = name_hold
-        RecentScores[2].Date.tm_mday = day_hold
-        RecentScores[2].Date.tm_mon = month_hold
-        RecentScores[2].Date.tm_year = year_hold
-        change = True
-    if RecentScores[2].Score < RecentScores[3].Score:
-        score_hold = RecentScores[2].Score
-        name_hold = RecentScores[2].Name
-        day_hold = RecentScores[2].Date.tm_mday
-        month_hold = RecentScores[2].Date.tm_mon
-        year_hold = RecentScores[2].Date.tm_year
-        RecentScores[2].Score = RecentScores[3].Score
-        RecentScores[2].Name = RecentScores[3].Name
-        RecentScores[2].Date.tm_mday = RecentScores[3].Date.tm_mday
-        RecentScores[2].Date.tm_mon = RecentScores[3].Date.tm_mon
-        RecentScores[2].Date.tm_year = RecentScores[3].Date.tm_year
-        RecentScores[3].Score = score_hold
-        RecentScores[3].Name = name_hold
-        RecentScores[3].Date.tm_mday = day_hold
-        RecentScores[3].Date.tm_mon = month_hold
-        RecentScores[3].Date.tm_year = year_hold
-        change = True
-
-=======
     while change == True:
       if to_change == True:
           change = False
@@ -371,19 +327,26 @@ def bubble_sort_scores(RecentScores):
       to_change = True
 
 def save_scores(RecentScores):
-  pickle.dump(RecentScores,open('socres.dat','wb'))
+  pickle.dump(RecentScores,open('scores.dat','wb'))
   print('Scores saved :) ')
 
 def load_scores():
-  RecentScores = pickle.load(open('socres.dat','rb'))
+  jeff = []
+  jeff.append(pickle.load(open('scores.dat','rb')))
+  for count in range(len(jeff[0]-1)):
+    RecentScores.append(jeff[0][(count + 1)])
 
-load_scores()
->>>>>>> saving and loading files
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
-  for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    RecentScores.append(TRecentScore())
+  try:
+    load_scores()
+    print('Scores Loaded!!!')
+  except:
+    print('Load Failed :(')
+    for Count in range(1, NO_OF_RECENT_SCORES + 1):
+      RecentScores.append(TRecentScore())
+  
   Choice = ''
   while Choice != 'q':
     DisplayMenu()
@@ -401,9 +364,8 @@ if __name__ == '__main__':
     elif Choice == '4':
       ResetRecentScores(RecentScores)
     elif Choice == '5':
-<<<<<<< HEAD
-=======
       save_scores(RecentScores)
     elif Choice == '6':
->>>>>>> saving and loading files
         ace_high = options()
+    elif Choice == '99':
+      load_scores()
