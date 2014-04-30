@@ -6,6 +6,10 @@
 
 import random
 import time
+<<<<<<< HEAD
+=======
+import pickle
+>>>>>>> saving and loading files
 
 NO_OF_RECENT_SCORES = 3
 
@@ -107,7 +111,12 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
+<<<<<<< HEAD
   print('5. Options')
+=======
+  print('5. Save recent scores')
+  print('6. Options')
+>>>>>>> saving and loading files
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
@@ -293,6 +302,7 @@ def PlayGame(Deck, RecentScores,ace_high):
 def bubble_sort_scores(RecentScores):
     change = True
     to_change = True
+<<<<<<< HEAD
     if to_change == True:
         change = False
         to_change = False
@@ -331,6 +341,44 @@ def bubble_sort_scores(RecentScores):
         RecentScores[3].Date.tm_year = year_hold
         change = True
 
+=======
+    while change == True:
+      if to_change == True:
+          change = False
+          to_change = False
+      if RecentScores[1].Score < RecentScores[2].Score:
+          score_hold = RecentScores[1].Score
+          name_hold = RecentScores[1].Name
+          date_hold = RecentScores[1].Date
+          RecentScores[1].Score = RecentScores[2].Score
+          RecentScores[1].Name = RecentScores[2].Name
+          RecentScores[1].Date = RecentScores[2].Date
+          RecentScores[2].Score = score_hold
+          RecentScores[2].Name = name_hold
+          RecentScores[2].Date = date_hold
+          change = True
+      if RecentScores[2].Score < RecentScores[3].Score:
+          score_hold = RecentScores[2].Score
+          name_hold = RecentScores[2].Name
+          date_hold = RecentScores[2].Date
+          RecentScores[2].Score = RecentScores[3].Score
+          RecentScores[2].Name = RecentScores[3].Name
+          RecentScores[2].Date = RecentScores[2].Date
+          RecentScores[3].Score = score_hold
+          RecentScores[3].Name = name_hold
+          RecentScores[3].Date = date_hold
+          change = True
+      to_change = True
+
+def save_scores(RecentScores):
+  pickle.dump(RecentScores,open('socres.dat','wb'))
+  print('Scores saved :) ')
+
+def load_scores():
+  RecentScores = pickle.load(open('socres.dat','rb'))
+
+load_scores()
+>>>>>>> saving and loading files
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
@@ -353,4 +401,9 @@ if __name__ == '__main__':
     elif Choice == '4':
       ResetRecentScores(RecentScores)
     elif Choice == '5':
+<<<<<<< HEAD
+=======
+      save_scores(RecentScores)
+    elif Choice == '6':
+>>>>>>> saving and loading files
         ace_high = options()
