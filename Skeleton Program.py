@@ -8,8 +8,7 @@ import random
 import time
 import pickle
 
-
-NO_OF_RECENT_SCORES = 3
+NO_OF_RECENT_SCORES = 10
 
 class TCard():
   def __init__(self):
@@ -23,7 +22,6 @@ class TRecentScore():
     self.Date = time.strptime('01/01/70','%d/%m/%y')
 
 Deck = [None]
-RecentScores = [None]
 Choice = ''
 ace_high = 0
 
@@ -110,7 +108,6 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
-  print('5. Options')
   print('5. Save recent scores')
   print('6. Options')
   print()
@@ -226,8 +223,11 @@ def DisplayRecentScores(RecentScores):
   print('Recent Scores: ')
   print()
   print('{0:<10} {1:>10} {2:>10}'.format('Name:','Score:','Date:'))
-  for Count in range(1, NO_OF_RECENT_SCORES + 1):    
-    print('{0:<10} {1:>5} {2:>11}/{3:>0}/{4:>0}'.format(RecentScores[Count].Name, RecentScores[Count].Score, RecentScores[Count].Date.tm_mday, RecentScores[Count].Date.tm_mon, RecentScores[Count].Date.tm_year))
+  try:
+    for Count in range(1, NO_OF_RECENT_SCORES + 1):    
+      print('{0:<10} {1:>5} {2:>11}/{3:>0}/{4:>0}'.format(RecentScores[Count].Name, RecentScores[Count].Score, RecentScores[Count].Date.tm_mday, RecentScores[Count].Date.tm_mon, RecentScores[Count].Date.tm_year))
+  except:
+    pass
   print()
   print('Press the Enter key to return to the main menu')
   input()
@@ -296,54 +296,48 @@ def PlayGame(Deck, RecentScores,ace_high):
     UpdateRecentScores(RecentScores, 51)
 
 def bubble_sort_scores(RecentScores):
-    change = True
-    to_change = True
-    while change == True:
-      if to_change == True:
-          change = False
-          to_change = False
-      if RecentScores[1].Score < RecentScores[2].Score:
-          score_hold = RecentScores[1].Score
-          name_hold = RecentScores[1].Name
-          date_hold = RecentScores[1].Date
-          RecentScores[1].Score = RecentScores[2].Score
-          RecentScores[1].Name = RecentScores[2].Name
-          RecentScores[1].Date = RecentScores[2].Date
-          RecentScores[2].Score = score_hold
-          RecentScores[2].Name = name_hold
-          RecentScores[2].Date = date_hold
-          change = True
-      if RecentScores[2].Score < RecentScores[3].Score:
-          score_hold = RecentScores[2].Score
-          name_hold = RecentScores[2].Name
-          date_hold = RecentScores[2].Date
-          RecentScores[2].Score = RecentScores[3].Score
-          RecentScores[2].Name = RecentScores[3].Name
-          RecentScores[2].Date = RecentScores[2].Date
-          RecentScores[3].Score = score_hold
-          RecentScores[3].Name = name_hold
-          RecentScores[3].Date = date_hold
-          change = True
-      to_change = True
+  Variables_numb = len(RecentScores)
+  run = True
+  count1 = 1
+  count2 = 2
+  swap_area = 0
+  finished = 0
+  while run:
+    if finished == Variables_numb-2:
+      run = False
+    elif RecentScores[count1].Score < RecentScores[count2].Score:
+      swap_area = RecentScores[count1]
+      RecentScores[count1] = RecentScores[count2]
+      RecentScores[count2] = swap_area
+      finished = 0
+      count1 = 1
+      count2 = 2
+    elif RecentScores[count1].Score >= RecentScores[count2].Score:
+      count1 +=1
+      count2 +=1
+      finished +=1
+  return RecentScores
+
+
+
+
+
 
 def save_scores(RecentScores):
   pickle.dump(RecentScores,open('scores.dat','wb'))
   print('Scores saved :) ')
 
 def load_scores():
-  jeff = []
-  jeff.append(pickle.load(open('scores.dat','rb')))
-  for count in range(len(jeff[0]-1)):
-    RecentScores.append(jeff[0][(count + 1)])
-
+  RecentScores = pickle.load(open('scores.dat','rb'))
+  return RecentScores
+  
 if __name__ == '__main__':
   for Count in range(1, 53):
     Deck.append(TCard())
   try:
-    load_scores()
-    print('Scores Loaded!!!')
+    RecentScores = load_scores()
   except:
-    print('Load Failed :(')
+    RecentScores = [None]
     for Count in range(1, NO_OF_RECENT_SCORES + 1):
       RecentScores.append(TRecentScore())
   
@@ -359,7 +353,7 @@ if __name__ == '__main__':
       LoadDeck(Deck)
       PlayGame(Deck, RecentScores,ace_high)
     elif Choice == '3':
-      bubble_sort_scores(RecentScores)
+      RecentScores = bubble_sort_scores(RecentScores)
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
       ResetRecentScores(RecentScores)
