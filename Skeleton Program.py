@@ -222,10 +222,11 @@ def DisplayRecentScores(RecentScores):
   print()
   print('Recent Scores: ')
   print()
-  print('{0:<10} {1:>10} {2:>10}'.format('Name:','Score:','Date:'))
+  print('{0:<15} {1:>15} {2:>15}'.format('Name:','Score:','Date:'))
   try:
-    for Count in range(1, NO_OF_RECENT_SCORES + 1):    
-      print('{0:<10} {1:>5} {2:>11}/{3:>0}/{4:>0}'.format(RecentScores[Count].Name, RecentScores[Count].Score, RecentScores[Count].Date.tm_mday, RecentScores[Count].Date.tm_mon, RecentScores[Count].Date.tm_year))
+    for Count in range(1, NO_OF_RECENT_SCORES + 1):
+      if RecentScores[Count].Name != '':
+        print('{0:<15} {1:>5} {2:>11}/{3:>0}/{4:>0}'.format(RecentScores[Count].Name, RecentScores[Count].Score, RecentScores[Count].Date.tm_mday, RecentScores[Count].Date.tm_mon, RecentScores[Count].Date.tm_year))
   except:
     pass
   print()
@@ -318,11 +319,6 @@ def bubble_sort_scores(RecentScores):
       finished +=1
   return RecentScores
 
-
-
-
-
-
 def save_scores(RecentScores):
   pickle.dump(RecentScores,open('scores.dat','wb'))
   print('Scores saved :) ')
@@ -340,7 +336,6 @@ if __name__ == '__main__':
     RecentScores = [None]
     for Count in range(1, NO_OF_RECENT_SCORES + 1):
       RecentScores.append(TRecentScore())
-  
   Choice = ''
   while Choice != 'q':
     DisplayMenu()
@@ -361,5 +356,3 @@ if __name__ == '__main__':
       save_scores(RecentScores)
     elif Choice == '6':
         ace_high = options()
-    elif Choice == '99':
-      load_scores()
